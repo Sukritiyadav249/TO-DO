@@ -1,0 +1,136 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Form Table</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      gap: 70px;
+    }
+
+    #output {
+      height: auto;
+      width: 50vw;
+      background-color: pink;
+      margin-top: 100px;
+    }
+
+    .inputbox {
+      height: auto;
+      width: 30vw;
+      background-color: rgb(197, 66, 88);
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+    }
+
+    input {
+      margin: 10px 0;
+      height: 30px;
+      width: 90%;
+    }
+
+    button {
+      height: 30px;
+      width: 80px;
+      background-color: #69c9f5;
+      border: none;
+      margin: 10px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    .actions button {
+      margin-right: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="inputbox">
+      <input id="input" type="text" placeholder="Enter your Name" />
+      <input id="email" type="email" placeholder="Enter your Email" />
+      <input id="password" type="password" placeholder="Enter your password" />
+      <button onclick="addtask()">Add</button>
+    </div>
+
+    <div id="output">
+      <table id="dataTable">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Email</th>
+            <th>Password</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function addtask() {
+      let input = document.getElementById('input').value.trim();
+      let email = document.getElementById('email').value.trim();
+      let password = document.getElementById('password').value.trim();
+
+      if (!input || !email || !password) {
+        alert("Please fill all fields!");
+        return;
+      }
+
+      const tableBody = document.querySelector('#dataTable tbody');
+
+      const tr = document.createElement('tr');
+
+      tr.innerHTML = `
+        <td>${input}</td>
+        <td>${email}</td>
+        <td>${password}</td>
+        <td class="actions">
+          <button onclick="editRow(this)">Edit</button>
+          <button onclick="deleteRow(this)">Delete</button>
+        </td>
+      `;
+
+      tableBody.appendChild(tr);
+
+      document.getElementById('input').value = "";
+      document.getElementById('email').value = "";
+      document.getElementById('password').value = "";
+    }
+
+    function deleteRow(btn) {
+     btn.remove();
+    }
+
+    function editRow(btn) {
+      const row = btn.parentElement.parentElement;
+      const cells = row.querySelectorAll('td');
+      const name = prompt("Edit Name", cells[0].textContent);
+      const email = prompt("Edit Email", cells[1].textContent);
+      const password = prompt("Edit Password", cells[2].textContent);
+
+      if (name && email && password) {
+        cells[0].textContent = name;
+        cells[1].textContent = email;
+        cells[2].textContent = password;
+      }
+    }
+  </script>
+</body>
+</html> 
